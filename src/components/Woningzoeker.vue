@@ -1,12 +1,14 @@
 <template>
-  <div class="container is-fluid">
+  <div class="container is-fluid" :class="{active: hasDetailsOpen}">
     <div class="columns">
       <div class="column is-5">
         <div class="header-container">
-          <h1><span class="header-top">{{ getHeader().top }}</span><br>{{ getHeader().bottom }}</h1>
+          <p class="header-app"><span class="header-top"><span class="constructed-app">{{ getHeader().constructed }}</span>{{ getHeader().top }}</span><br>{{ getHeader().bottom }}</p>
         </div>
       </div>
-  
+      <div class="column is-hidden-tablet">
+        <FilterLevels />
+      </div>  
       <div class="column is-7">
         <div class="filter-container">
           <div class="filter-labels">
@@ -16,17 +18,9 @@
           </div>
   
           <div class="filter-controls">
-            <div class="control">
               <FilterDropdown :target="'type'" />
-            </div>
-  
-            <div class="control">
               <FilterDropdown :target="'area'" />
-            </div>
-  
-            <div class="control">
               <FilterDropdown :target="'price'" />
-            </div>
           </div>
   
         </div>
@@ -35,11 +29,11 @@
     </div>
   
     <div class="columns">
-      <div class="column is-5">
+      <div class="column is-5 is-hidden-mobile">
         <FilterLevels />
       </div>
   
-      <div class="column is-7">
+      <div class="column is-7 column-overview">
         <Overview />
       </div>
     </div>
@@ -81,6 +75,12 @@
       },
       toggleLoader() {
         return store.state.isLoading
+      },
+      hasDetailsOpen() {
+        return store.state.hasDetailsOpen
+      },
+      isMobile() {
+        return (window.innerWidth < 768)
       }
     },
     methods: {
@@ -89,7 +89,8 @@
   
         if (level == 0) {
           return {
-            top: 'ALLE',
+            constructed: 'A',
+            top: 'LLE',
             bottom: 'VERDIEPINGEN'
           }
         } else {
@@ -98,23 +99,30 @@
           if (level == 1 || level == 8 || level > 19) {
             extension = 'STE'
           }
+
+          let strLevel = level.toString()
           return {
-            top: level + extension,
+            constructed: strLevel.substring(0, 1),
+            top: strLevel.substring(1) + extension,
             bottom: 'VERDIEPING'
           }
         }
-  
       },
     },
-    beforeMount() {
-      store.dispatch('init')
-    }
   
   };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.constructed-app {
+  font-family: 'SMMaxeville-Constructed';
+}
+p.header-app {
+  font-size: 45px;
+  font-family: 'SMMaxeville-Regular';
+  line-height: 0.85em;
+}
   .has-border-top {
     border-top: 1px solid black;
   }
@@ -125,7 +133,7 @@
   }
   
   .header-top {
-    color: red;
+    color: #E7413A;
   }
   
   .filter-container {
@@ -135,8 +143,29 @@
     border-top: 1px solid black;
   }
 
-  .control {
-    margin-bottom: 0.5em;
-    color: red;
+  .label {
+    margin-bottom: 0;
+    padding-bottom: 0.5rem;
+    height: 2rem;
+    line-height: 2rem;
+  }
+
+  .container.active {
+    padding-bottom: 0px;
+    transition: padding-bottom 400ms ease;
+  }
+
+  .container.active {
+    padding-bottom: 72px;
+  }
+
+  .column-overview {
+    min-height: 75vh;
+  }
+
+  @media (min-width: 780px) {
+    .column-overview {
+      min-height: auto;
+    }
   }
 </style>

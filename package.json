@@ -11,7 +11,6 @@
     "axios": "^0.18.0",
     "popmotion": "^8.3.8",
     "vue": "^2.5.17",
-    "vue-pose": "^0.5.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

@@ -10,8 +10,8 @@ export default new Vuex.Store({
     count: 32,
     list: {
       type: ['Alle opties', 'Maaskant', 'Studio', 'Rudolph', 'Ando', 'Powerhouse', 'Goldfinger', 'Broek & Bakema', 'Acacia', 'Bancroft', 'Breuer', 'Cedar', 'Chestnut', 'Da Rocha', 'Hazel', 'Lautner', 'Locust', 'Locust Executive', 'Locust Royale', 'Luder', 'Maple', 'Maple Executive', 'Maple royale', 'Niemeyer', 'Oak'],
-      area: ['Alle opties', '40m2 — 60m2', '60m2 — 80m2', '80m2 — 100m2', '100m2 — 120m2', '120m2 — 140m2', '140m2 — 160m2'],
-      price: ['Alle opties', '€200.000 — €300.000', '€300.000 — €400.000', '€400.000 — €500.000', '€500.000 — €600.000', '€600.000 — €700.000']
+      area: ['Alle opties', '40m2 — 60m2', '60m2 — 80m2', '80m2 — 100m2', '100m2 — 120m2', '120m2 — 140m2', '140m2 — 160m2', '160m2 — 308m2'],
+      price: ['Alle opties', '€200.000 — €300.000', '€300.000 — €400.000', '€400.000 — €500.000', '€500.000 — €600.000', '€600.000 — €700.000', '€700.000 — €1.570.000']
     },
     current: {
       type: 'Alle opties',
@@ -37,7 +37,6 @@ export default new Vuex.Store({
 
       // TODO: main filter function implementation
       state.hasDetailsOpen = false
-      return
     },
     setApartments (state, apartments) {
       state.apartments = apartments
@@ -69,8 +68,6 @@ export default new Vuex.Store({
 
       state.apartments.forEach((item) => {
         if (parseInt(item.id) === parseInt(id)) {
-          // eslint-disable-next-line
-          console.log(item)
           apartment = item
         }
       })
@@ -81,7 +78,7 @@ export default new Vuex.Store({
   actions: {
     init (context) {
       axios
-        .get('http://bunkertoren.test/site/wp-json/woningzoeker/v1/apartments')
+        .get('http://bunkertoren.nl/wp-json/woningzoeker/v1/apartments')
         .then((response) => {
           context.commit('setApartments', response.data)
           context.commit('setFilteredApartments', response.data)
@@ -92,7 +89,10 @@ export default new Vuex.Store({
       let result = context.state.apartments
 
       if (context.state.current.type !== 'Alle opties') {
-        result = result.filter(apartment => apartment.type === context.state.current.type.toUpperCase())
+        result = result.filter(apartment => {
+          return ((apartment.type === context.state.current.type.toUpperCase()) ||
+                  (apartment.type === context.state.current.type.toUpperCase() + ' PENTHOUSE'))
+        })
       }
 
       if (context.state.current.area !== 'Alle opties') {
@@ -113,7 +113,10 @@ export default new Vuex.Store({
             result = result.filter(apartment => (apartment.area > 120 && apartment.area < 140))
             break;
           case '140m2 — 160m2':
-            result = result.filter(apartment => (apartment.area > 140))
+            result = result.filter(apartment => (apartment.area > 140 && apartment.area < 160))
+            break;
+          case '160m2 — 308m2':
+            result = result.filter(apartment => (apartment.area > 160))
             break;
         }
       }
@@ -133,7 +136,10 @@ export default new Vuex.Store({
             result = result.filter(apartment => (apartment.price > 500000 && apartment.price < 600000))
             break;
           case '€600.000 — €700.000':
-            result = result.filter(apartment => (apartment.price > 600000))
+            result = result.filter(apartment => (apartment.price > 600000 && apartment.price < 700000))
+            break;
+          case '€700.000 — €1.570.000':
+            result = result.filter(apartment => (apartment.price > 700000))
             break;
         }
       }
@@ -150,6 +156,97 @@ export default new Vuex.Store({
       }
 
       context.commit('resetFilters')
+    },
+    sortByType(context, ascending = true) {
+      if (ascending) {
+        let temp = context.state.filteredApartments
+
+        temp.sort(function(a, b){
+          if(a.type < b.type) return -1;
+          if(a.type > b.type) return 1;
+          return 0;
+        })
+  
+        context.state.filteredApartments = temp
+      } else {
+        let temp = context.state.filteredApartments
+
+        temp.sort(function(a, b){
+          if(a.type < b.type) return 1;
+          if(a.type > b.type) return -1;
+          return 0;
+        })
+
+        context.state.filteredApartments = temp
+      }
+    },
+    sortByName(context, ascending = true) {
+      if (ascending) {
+        let temp = context.state.filteredApartments
+
+        temp.sort(function(a, b){
+          if(a.name < b.name) return -1;
+          if(a.name > b.name) return 1;
+          return 0;
+        })
+  
+        context.state.filteredApartments = temp
+      } else {
+        let temp = context.state.filteredApartments
+
+        temp.sort(function(a, b){
+          if(a.name < b.name) return 1;
+          if(a.name > b.name) return -1;
+          return 0;
+        })
+
+        context.state.filteredApartments = temp
+      }
+    },
+    sortByArea(context, ascending = true) {
+      if (ascending) {
+        let temp = context.state.filteredApartments
+
+        temp.sort((a, b) => parseInt(a.area) - parseInt(b.area))
+  
+        context.state.filteredApartments = temp
+      } else {
+        let temp = context.state.filteredApartments
+
+        temp.sort((a, b) => parseInt(b.area) - parseInt(a.area))
+  
+        context.state.filteredApartments = temp
+      }
+    },
+    sortByLevel(context, ascending = true) {
+      if (ascending) {
+        let temp = context.state.filteredApartments
+
+        temp.sort((a, b) => parseInt(a.level) - parseInt(b.level))
+  
+        context.state.filteredApartments = temp
+      } else {
+        let temp = context.state.filteredApartments
+
+        temp.sort((a, b) => parseInt(b.level) - parseInt(a.level))
+  
+        context.state.filteredApartments = temp
+      }
+    },
+    sortByPrice(context, ascending = true) {
+      if (ascending) {
+        let temp = context.state.filteredApartments
+
+        temp.sort((a, b) => parseInt(a.price) - parseInt(b.price))
+  
+        context.state.filteredApartments = temp
+      } else {
+        let temp = context.state.filteredApartments
+
+        temp.sort((a, b) => parseInt(b.price) - parseInt(a.price))
+  
+        context.state.filteredApartments = temp
+      }
     }
   }
 })
