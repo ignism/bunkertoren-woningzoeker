@@ -267,7 +267,7 @@ export default {
   display: block;
   width: auto;
   z-index: +2;
-  background: rgba(236, 90, 84, 0.5);
+  background: rgba(0, 0, 0, 0.5);
   /* background: rgba(238, 198, 137, 0.75); */
   opacity: 0;
   transition: opacity 200ms ease;
@@ -298,12 +298,12 @@ export default {
 }
 
 .story.active {
-  background: rgba(236, 90, 84, 0.5);
+  background: rgba(0, 0, 0, 0.5);
   opacity: 1;
 }
 
 .story.active:hover {
-  background: rgba(236, 90, 84, 0.75);
+  background: rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
 
