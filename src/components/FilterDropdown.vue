@@ -15,52 +15,52 @@
 </template>
 
 <script>
-import store from "../store";
+import store from '../store'
 
 export default {
-  name: "FilterDropdown",
-  props: ["target"],
+  name: 'FilterDropdown',
+  props: ['target'],
   data: function() {
     return {
       isOpen: false,
-      currValue: "Alle opties"
-    };
+      currValue: 'Alle opties',
+    }
   },
   computed: {
     selection() {
-      return store.state.current[this.target];
+      return store.state.current[this.target]
     },
     isFaded() {
-      return store.state.isFaded;
+      return store.state.isFaded
     },
     list() {
-      return store.state.list[this.target];
-    }
+      return store.state.list[this.target]
+    },
   },
   methods: {
     toggle: function() {
-      store.commit("fadeIn");
-      this.isOpen = true;
+      store.commit('fadeIn')
+      this.isOpen = true
     },
     select: function(innerText) {
-      store.commit("setCurrent", { target: this.target, value: innerText });
-      store.commit("fadeOut");
-      store.dispatch("filterApartments");
-      this.isOpen = false;
-      this.currValue = innerText;
+      store.commit('setCurrent', { target: this.target, value: innerText })
+      store.commit('fadeOut')
+      store.dispatch('filterApartments')
+      this.isOpen = false
+      this.currValue = innerText
     },
     setSelection: function() {
-      this.select(this.currValue);
-    }
+      this.select(this.currValue)
+    },
   },
   watch: {
     isFaded: function(value) {
       if (value == false) {
-        this.isOpen = false;
+        this.isOpen = false
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -74,7 +74,7 @@ export default {
   top: -1em;
   left: -1em;
   width: 240px;
-  background: white;
+  background: #f4f0e4;
   position: absolute;
   z-index: 9999;
   padding: 1em;
@@ -84,13 +84,13 @@ export default {
 }
 
 .filter-dropdown ul li {
-  color: black;
+  color: #2f160f;
   transition: color 400ms ease;
   cursor: pointer;
 }
 
 .filter-dropdown ul li:hover {
-  color: #e7413a;
+  color: #2f160f;
 }
 
 .caret {
@@ -98,11 +98,12 @@ export default {
   margin-bottom: 0.1em;
 }
 
-.select, .selection {
+.select,
+.selection {
   font-size: 1rem;
   padding-bottom: 0.5rem;
   background: transparent;
-  color: #E7413A;
+  color: #2f160f;
   border: 0;
   -webkit-appearance: none;
   appearance: none;

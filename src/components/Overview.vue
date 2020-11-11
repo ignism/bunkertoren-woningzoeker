@@ -46,6 +46,7 @@
         <li class="trow padding">
           <div class="tcol tcol-text">
             <p>{{ currApartment.text }}</p>
+            <a target="_blank" href="https://pdb.eye-move.nl/Contact/ProjectInschrijven/start.html?RecID=97043" class="button interested">inschrijven</a>
           </div>
           <div class="tcol tcol-plan">
             <img :src="currApartment.plan" alt="">
@@ -99,72 +100,71 @@
 </template>
 
 <script>
-import store from "../store";
-import { tween } from "popmotion";
+import store from '../store'
+import { tween } from 'popmotion'
 
 export default {
-  name: "Overview",
+  name: 'Overview',
   components: {},
   data: function() {
     return {
       currDetails: false,
-      currApartment: {}
-    };
+      currApartment: {},
+    }
   },
   props: [],
   computed: {
     results() {
-      return store.state.filteredApartments;
+      return store.state.filteredApartments
     },
     details() {
-      return this.currDetails;
+      return this.currDetails
     },
     openDetails() {
-      return store.state.hasDetailsOpen;
-    }
+      return store.state.hasDetailsOpen
+    },
   },
   methods: {
     toggleApartment: function(event, id) {
       if (this.openDetails) {
-        let item = document.getElementById(id);
+        let item = document.getElementById(id)
         item.classList.remove('active')
-        store.commit("hasDetailsOpen", false);
+        store.commit('hasDetailsOpen', false)
       } else {
-        this.currDetails = id;
-        this.currApartment = store.getters.getApartmentById(id);
+        this.currDetails = id
+        this.currApartment = store.getters.getApartmentById(id)
 
-        let item = document.getElementById(id);
+        let item = document.getElementById(id)
         item.classList.add('active')
 
-        let results = document.querySelector(".results-wrapper");
-        let details = document.querySelector(".details-wrapper");
+        let results = document.querySelector('.results-wrapper')
+        let details = document.querySelector('.details-wrapper')
 
-        let currPos = results.scrollTop;
-        let offsetPos = item.offsetTop + 1; // +1 to remove fat line
+        let currPos = results.scrollTop
+        let offsetPos = item.offsetTop + 1 // +1 to remove fat line
 
-        const updateResults = v => (results.scrollTop = v);
-        const updateDetails = v => (details.style.height = v + "%");
+        const updateResults = (v) => (results.scrollTop = v)
+        const updateDetails = (v) => (details.style.height = v + '%')
 
-        details.style.height = 0;
-        details.style.overflow = "hidden";
+        details.style.height = 0
+        details.style.overflow = 'hidden'
 
-        store.commit("hasDetailsOpen", true);
+        store.commit('hasDetailsOpen', true)
 
         tween({ from: currPos, to: offsetPos, duration: 400 }).start({
           update: updateResults,
-          complete: () =>
-            tween({ from: 0, to: 100, duration: 600 }).start(updateDetails)
-        });
+          complete: () => tween({ from: 0, to: 100, duration: 600 }).start(updateDetails),
+        })
       }
     },
     getStatus: function(status) {
       if (status) {
-        if (status.toLowerCase() === "beschikbaar") {
-          return "status-green";
-        } else if (status.toLowerCase() === "onder optie") {
-          return "status-orange";
+        if (status.toLowerCase() === 'beschikbaar') {
+          return 'status-green'
+        } else if (status.toLowerCase() === 'onder optie') {
+          return 'status-orange'
         } else {
-          return "status-red";
+          return 'status-red'
         }
       } else {
         return 'undefined'
@@ -172,35 +172,35 @@ export default {
     },
     getTrowStatus: function(status) {
       if (status) {
-        if (status.toLowerCase() === "beschikbaar") {
-          return "";
-        } else if (status.toLowerCase() === "onder optie") {
-          return "";
+        if (status.toLowerCase() === 'beschikbaar') {
+          return ''
+        } else if (status.toLowerCase() === 'onder optie') {
+          return ''
         } else {
-          return "status-unavailable";
+          return 'status-unavailable'
         }
       } else {
         return 'undefined'
       }
     },
     getRotation() {
-      return "deg-155";
+      return 'deg-155'
     },
     getPrice: function(price) {
-      let p = price + "";
+      let p = price + ''
 
       if (p.length > 6) {
-        let start = p.substring(1, p.length - 3);
-        let end = p.substring(p.length - 3);
-        let comp = "€1." + start + "." + end;
+        let start = p.substring(1, p.length - 3)
+        let end = p.substring(p.length - 3)
+        let comp = '€1.' + start + '.' + end
 
-        return comp;
+        return comp
       } else {
-        let start = p.substring(0, p.length - 3);
-        let end = p.substring(p.length - 3);
-        let comp = "€" + start + "." + end;
+        let start = p.substring(0, p.length - 3)
+        let end = p.substring(p.length - 3)
+        let comp = '€' + start + '.' + end
 
-        return comp;
+        return comp
       }
     },
     removeSorting: function() {
@@ -296,14 +296,14 @@ export default {
       let elements = document.querySelectorAll('.results-wrapper .trow')
 
       for (let i = 0; i < elements.length; i++) {
-        elements[i].classList.remove('active')        
+        elements[i].classList.remove('active')
       }
 
-      let results = document.querySelector(".results-wrapper");
-      results.scrollTop = 0;
-    }
-  }
-};
+      let results = document.querySelector('.results-wrapper')
+      results.scrollTop = 0
+    },
+  },
+}
 </script>
 
 <style>
@@ -329,13 +329,12 @@ export default {
 }
 
 .details-wrapper {
-  padding-top: 2rem;
   position: relative;
   top: 63px;
   bottom: 0;
   left: 0;
   right: 0;
-  background: white;
+  background: #f4f0e4;
   font-size: 12px;
   opacity: 0;
   z-index: 9990;
@@ -371,7 +370,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  box-shadow: 0px 24px 32px -24px rgba(0,0,0,0.5);
+  box-shadow: 0px 24px 32px -24px rgba(0, 0, 0, 0.5);
 }
 
 .details-wrapper img {
@@ -387,6 +386,11 @@ export default {
   margin-right: 1rem;
 }
 
+.button.interested {
+  font-size: 15px;
+  margin-bottom: 14px;
+}
+
 @media (max-width: 768px) {
   .details-wrapper .header-app {
     font-size: 20px !important;
@@ -397,7 +401,7 @@ export default {
 }
 
 .details-wrapper h2.small {
-  font-family: 'Chap-Regular';
+  font-family: 'OrpheusPro', serif;
   text-transform: capitalize;
   font-size: 16px;
   margin-bottom: 0;
@@ -418,14 +422,14 @@ export default {
 }
 
 .results-wrapper .trow.status-unavailable {
-  color: rgba(0,0,0,0.5);
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .results-wrapper .trow:hover,
 .results-wrapper .trow.active {
-  box-shadow: 0px 24px 32px -24px rgba(0,0,0,0.5);
+  box-shadow: 0px 24px 32px -24px rgba(0, 0, 0, 0.5);
   cursor: pointer;
-  z-index: 9999;
+  z-index: 9000;
 }
 
 .heading-wrapper .tcol {
@@ -439,13 +443,13 @@ export default {
   height: 4rem;
   line-height: 4rem;
   white-space: nowrap;
-  background: white;
+  background: #f4f0e4;
 }
 
 @media (max-width: 768px) {
   .heading-wrapper .tcol {
     font-size: 10px;
-}
+  }
   .results-wrapper .tcol {
     font-size: 12px;
   }
@@ -526,7 +530,7 @@ export default {
   margin-right: 0;
 }
 .tcol-detail-header .status {
-  font-family: 'Chap-Regular';
+  font-family: 'OrpheusPro', serif;
   text-transform: capitalize;
   font-size: 16px;
 }

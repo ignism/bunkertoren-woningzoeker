@@ -48,19 +48,19 @@
 </template>
 
 <script>
-import store from "../store";
+import store from '../store'
 
 export default {
-  name: "FilterLevels",
+  name: 'FilterLevels',
   props: {},
   data: function() {
     return {
-      randomHash:  0
+      randomHash: 0,
     }
   },
   computed: {
     apartmentsOnLevel() {
-      return store.state.filteredApartments;
+      return store.state.filteredApartments
     },
     currType() {
       return store.state.current.type
@@ -70,146 +70,145 @@ export default {
     },
     currPrice() {
       return store.state.current.price
-    }
+    },
   },
   methods: {
     selectLevel: function(index, event) {
       if (store.state.current.level != index) {
-        let result = this.removeSelection(false);
+        let result = this.removeSelection(false)
         // eslint-disable-next-line
         console.log(result)
 
-        store.commit("setLevel", index);
-        store.dispatch("filterApartmentsByLevel");
-        event.target.classList.add("active");
+        store.commit('setLevel', index)
+        store.dispatch('filterApartmentsByLevel')
+        event.target.classList.add('active')
 
-        let pointer = document.getElementById(this.randomHash);
-        let list = document.querySelector("#" + this.randomHash + " .list");
-        let lines = document.querySelectorAll("#" + this.randomHash + " .list .line");
-        let story = event.target;
+        let pointer = document.getElementById(this.randomHash)
+        let list = document.querySelector('#' + this.randomHash + ' .list')
+        let lines = document.querySelectorAll('#' + this.randomHash + ' .list .line')
+        let story = event.target
 
         if (window.innerWidth < 768) {
-          if (story.classList.contains("block-1")) {
-            pointer.style.width = "calc(23.5% + 10% - 20px)";
-            pointer.style.marginLeft = "-10%"
-            list.style.top = "auto";
-            list.style.bottom = "" + story.clientHeight + "px";
-            lines[0].classList.remove("active");
-            lines[1].classList.remove("active");
-          } else if (story.classList.contains("block-2")) {
-            pointer.style.width = "calc(23.5% + 10% - 20px)";
-            pointer.style.marginLeft = "-10%"
-            list.style.top = "auto";
-            list.style.bottom = "-" + story.clientHeight + "px";
-            lines[0].classList.remove("active");
-            lines[1].classList.add("active");
-          } else if (story.classList.contains("block-3")) {
-            pointer.style.width = "calc(30.5% + 10% - 20px)";
-            pointer.style.marginLeft = "-10%"
-            list.style.top = "auto";
-            list.style.bottom = "-" + story.clientHeight + "px";
-            lines[0].classList.remove("active");
-            lines[1].classList.add("active");
-          } else if (story.classList.contains("story-9")) {
-            pointer.style.width = "calc(30.5% + 10% - 20px)";
-            pointer.style.marginLeft = "-10%"
-            list.style.top = "auto";
-            list.style.bottom = "-" + story.clientHeight + "px";
-            lines[0].classList.remove("active");
-            lines[1].classList.add("active");
-          } else if (story.classList.contains("block-4")) {
-            pointer.style.width = "calc(38.5% + 10% - 20px)";
-            pointer.style.marginLeft = "-10%"
-            list.style.top = 0;
-            list.style.bottom = "auto";
-            lines[0].classList.add("active");
-            lines[1].classList.remove("active");
-          } 
+          if (story.classList.contains('block-1')) {
+            pointer.style.width = 'calc(23.5% + 10% - 20px)'
+            pointer.style.marginLeft = '-10%'
+            list.style.top = 'auto'
+            list.style.bottom = '' + story.clientHeight + 'px'
+            lines[0].classList.remove('active')
+            lines[1].classList.remove('active')
+          } else if (story.classList.contains('block-2')) {
+            pointer.style.width = 'calc(23.5% + 10% - 20px)'
+            pointer.style.marginLeft = '-10%'
+            list.style.top = 'auto'
+            list.style.bottom = '-' + story.clientHeight + 'px'
+            lines[0].classList.remove('active')
+            lines[1].classList.add('active')
+          } else if (story.classList.contains('block-3')) {
+            pointer.style.width = 'calc(30.5% + 10% - 20px)'
+            pointer.style.marginLeft = '-10%'
+            list.style.top = 'auto'
+            list.style.bottom = '-' + story.clientHeight + 'px'
+            lines[0].classList.remove('active')
+            lines[1].classList.add('active')
+          } else if (story.classList.contains('story-9')) {
+            pointer.style.width = 'calc(30.5% + 10% - 20px)'
+            pointer.style.marginLeft = '-10%'
+            list.style.top = 'auto'
+            list.style.bottom = '-' + story.clientHeight + 'px'
+            lines[0].classList.remove('active')
+            lines[1].classList.add('active')
+          } else if (story.classList.contains('block-4')) {
+            pointer.style.width = 'calc(38.5% + 10% - 20px)'
+            pointer.style.marginLeft = '-10%'
+            list.style.top = 0
+            list.style.bottom = 'auto'
+            lines[0].classList.add('active')
+            lines[1].classList.remove('active')
+          }
         } else {
-          if (story.classList.contains("block-1")) {
-            pointer.style.width = "calc(23.5% - 20px)";
-            list.style.top = "auto";
-            list.style.bottom = "" + story.clientHeight + "px";
-            lines[0].classList.remove("active");
-            lines[1].classList.remove("active");
-          } else if (story.classList.contains("block-2")) {
-            pointer.style.width = "calc(23.5% - 20px)";
-            list.style.top = "auto";
-            list.style.bottom = "-" + story.clientHeight + "px";
-            lines[0].classList.remove("active");
-            lines[1].classList.add("active");
-          } else if (story.classList.contains("block-3")) {
-            pointer.style.width = "calc(30.5% - 20px)";
-            list.style.top = "auto";
-            list.style.bottom = "-" + story.clientHeight + "px";
-            lines[0].classList.remove("active");
-            lines[1].classList.add("active");
-          } else if (story.classList.contains("story-9")) {
-            pointer.style.width = "calc(30.5% - 20px)";
-            list.style.top = "auto";
-            list.style.bottom = "-" + story.clientHeight + "px";
-            lines[0].classList.remove("active");
-            lines[1].classList.add("active");
-          } else if (story.classList.contains("block-4")) {
-            pointer.style.width = "calc(38.5% - 20px)";
-            list.style.top = 0;
-            list.style.bottom = "auto";
-            lines[0].classList.add("active");
-            lines[1].classList.remove("active");
+          if (story.classList.contains('block-1')) {
+            pointer.style.width = 'calc(23.5% - 20px)'
+            list.style.top = 'auto'
+            list.style.bottom = '' + story.clientHeight + 'px'
+            lines[0].classList.remove('active')
+            lines[1].classList.remove('active')
+          } else if (story.classList.contains('block-2')) {
+            pointer.style.width = 'calc(23.5% - 20px)'
+            list.style.top = 'auto'
+            list.style.bottom = '-' + story.clientHeight + 'px'
+            lines[0].classList.remove('active')
+            lines[1].classList.add('active')
+          } else if (story.classList.contains('block-3')) {
+            pointer.style.width = 'calc(30.5% - 20px)'
+            list.style.top = 'auto'
+            list.style.bottom = '-' + story.clientHeight + 'px'
+            lines[0].classList.remove('active')
+            lines[1].classList.add('active')
+          } else if (story.classList.contains('story-9')) {
+            pointer.style.width = 'calc(30.5% - 20px)'
+            list.style.top = 'auto'
+            list.style.bottom = '-' + story.clientHeight + 'px'
+            lines[0].classList.remove('active')
+            lines[1].classList.add('active')
+          } else if (story.classList.contains('block-4')) {
+            pointer.style.width = 'calc(38.5% - 20px)'
+            list.style.top = 0
+            list.style.bottom = 'auto'
+            lines[0].classList.add('active')
+            lines[1].classList.remove('active')
           }
         }
 
-        pointer.style.top = story.offsetTop + "px";
-        pointer.classList.add("active");
+        pointer.style.top = story.offsetTop + 'px'
+        pointer.classList.add('active')
       } else {
-        this.removeSelection(true);
+        this.removeSelection(true)
       }
     },
     removeSelection: function(updateStore = true) {
-      let pointer = document.getElementById(this.randomHash);
-      let lines = document.querySelectorAll("#" + this.randomHash + " .list .line");
-      lines[0].classList.remove("active");
-      lines[1].classList.remove("active");
+      let pointer = document.getElementById(this.randomHash)
+      let lines = document.querySelectorAll('#' + this.randomHash + ' .list .line')
+      lines[0].classList.remove('active')
+      lines[1].classList.remove('active')
 
-      pointer.classList.remove("active");
+      pointer.classList.remove('active')
 
-      let levels = Array.from(document.getElementsByClassName("story"));
+      let levels = Array.from(document.getElementsByClassName('story'))
 
-      levels.forEach(element => {
-        element.classList.remove("active");
-      });
-
+      levels.forEach((element) => {
+        element.classList.remove('active')
+      })
 
       if (updateStore) {
-        store.commit("setLevel", 0);
-        store.dispatch("filterApartmentsByLevel");
-        store.commit("resetFilters", 0);
-      } 
+        store.commit('setLevel', 0)
+        store.dispatch('filterApartmentsByLevel')
+        store.commit('resetFilters', 0)
+      }
     },
     removeLevelSelection: function() {
-      let pointer = document.getElementById(this.randomHash);
-      let lines = document.querySelectorAll("#" + this.randomHash + " .list .line");
-      lines[0].classList.remove("active");
-      lines[1].classList.remove("active");
-      pointer.classList.remove("active");
+      let pointer = document.getElementById(this.randomHash)
+      let lines = document.querySelectorAll('#' + this.randomHash + ' .list .line')
+      lines[0].classList.remove('active')
+      lines[1].classList.remove('active')
+      pointer.classList.remove('active')
 
-      let levels = Array.from(document.getElementsByClassName("story"));
+      let levels = Array.from(document.getElementsByClassName('story'))
 
-      levels.forEach(element => {
-        element.classList.remove("active");
-      });
+      levels.forEach((element) => {
+        element.classList.remove('active')
+      })
 
-      store.commit("setLevel", 0);
+      store.commit('setLevel', 0)
     },
     getStatus: function(status) {
-      if (status.toLowerCase() === "beschikbaar") {
-        return "status-green";
-      } else if (status.toLowerCase() === "onder optie") {
-        return "status-orange";
+      if (status.toLowerCase() === 'beschikbaar') {
+        return 'status-green'
+      } else if (status.toLowerCase() === 'onder optie') {
+        return 'status-orange'
       } else {
-        return "status-red";
+        return 'status-red'
       }
-    }
+    },
   },
   beforeMount() {
     let d = new Date()
@@ -232,9 +231,9 @@ export default {
       if (val !== 'Alle opties') {
         this.removeLevelSelection()
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -279,7 +278,7 @@ export default {
   /* width: 100% !important; */
   /* margin: 0 !important; */
   text-align: center;
-  color: white;
+  color: #f4f0e4;
   text-shadow: 1px 1px black;
   display: flex;
   align-items: center;
@@ -375,7 +374,7 @@ export default {
   height: 1px;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
-  background: black;
+  background: #2f160f;
   opacity: 0;
 }
 
@@ -388,13 +387,11 @@ export default {
   position: relative;
 }
 
-
-
 .pointer .list li.status-green::before {
-  background: #91EA98;
+  background: #91ea98;
 }
 .pointer .list li.status-orange::before {
-  background: #EEC689;
+  background: #eec689;
 }
 .pointer .list li.status-red::before {
   background: rgb(236, 90, 84);

@@ -40,34 +40,34 @@
 </template>
 
 <script>
-import store from "./store";
-import Woningzoeker from "./components/Woningzoeker.vue";
+import store from './store'
+import Woningzoeker from './components/Woningzoeker.vue'
 
 export default {
-  name: "app",
+  name: 'app',
   components: {
-    Woningzoeker
+    Woningzoeker,
   },
   computed: {
     toggleOverlay() {
-      return store.state.isFaded;
+      return store.state.isFaded
     },
     toggleLoader() {
-      return store.state.isLoading;
-    }
+      return store.state.isLoading
+    },
   },
   methods: {
     fadeOut() {
-      store.commit("fadeOut");
+      store.commit('fadeOut')
     },
     isOverlay() {
       return this.toggleOverlay
-    }
+    },
   },
   beforeCreate() {
     store.dispatch('init')
-  }
-};
+  },
+}
 </script>
 
 <style>
@@ -76,7 +76,7 @@ export default {
 }
 
 .loader-overlay {
-  background: white;
+  background: #f4f0e4;
   position: absolute;
   top: 0;
   left: 0;
