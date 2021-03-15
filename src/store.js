@@ -85,7 +85,21 @@ export default new Vuex.Store({
       state.apartments = apartments
     },
     setFilteredApartments(state, apartments) {
-      state.filteredApartments = apartments
+      const sortedApartments = apartments.sort((a, b) => {
+        let statusA = 0
+        let statusB = 0
+        if (a.status === 'Onder optie') statusA = 1
+        if (a.status === 'Beschikbaar') statusA = 2
+        if (b.status === 'Onder optie') statusB = 1
+        if (b.status === 'Beschikbaar') statusB = 2
+
+        if (statusA < statusB) return 1
+        if (statusA > statusB) return -1
+
+        return 0
+      })
+
+      state.filteredApartments = sortedApartments
     },
     isLoading(state, loading) {
       state.isLoading = loading
